@@ -78,3 +78,36 @@ function useVehicle(vehicle: Vehicle) {
 useVehicle(v1);
 useVehicle(v2);
 
+//Discriminated Unions
+interface Bird {
+    type: 'brid';
+    flyingSpeed: number;
+}
+
+interface Horse {
+    type: 'horse';
+    runningSpeed: number;
+}
+
+type Animal = Bird | Horse;
+
+function moveAnimal(animal: Animal) {
+    let speed;
+    switch(animal.type) {
+        case 'brid':
+            speed = animal.flyingSpeed;
+            break;
+            case 'horse':
+                speed = animal.runningSpeed;
+    }
+    console.log('Moving at speed: ' + speed)
+}
+
+moveAnimal({type: 'brid', flyingSpeed: 19})
+
+// Type Casting
+
+const userInputElement = <HTMLInputElement>document.getElementById('user-input')!;
+// const userInputElement = document.getElementById('user-input')! as HTMLInputElement;
+userInputElement.value = 'Hi there!'
+
