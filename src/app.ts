@@ -1,46 +1,80 @@
-// type AddFn = (a: number, b: number) => number;
-interface  AddFn {
-    (a: number, b: number): number;
-}
+//Intersection Types
 
-let addNum: AddFn;
-
-addNum = (n1: number, n2: number) => {
-    return n1 + n2
-}
-
-
-
-interface Named {
-    readonly name: string;
-}
-
-interface Greatable extends Named{
-//    readonly name: string;
-
-    greet(phrase: string): void;
-}
-
-
-
-class Person implements Greatable {
+type Admin = {
     name: string;
-    age= 36;
+    privileges: string[];
+};
 
-    constructor(n: string) {
-        this.name = n;
-        // this.age = age;
+type Employee = {
+    name: string;
+    startDate: Date;
+};
+
+type ElevatedEmployee = Admin & Employee;
+
+const e1: ElevatedEmployee = {
+    name: 'Adriana',
+    privileges: ['create-server'],
+    startDate: new Date()
+}
+
+type Combinable1 = string | number;
+type Numeric = number | boolean;
+
+//this will be the type that is common in Combinable1 & Numeric (number)
+type Universal = Combinable1 & Numeric;
+
+
+//Type Guards
+function addNu(a: Combinable1, b: Combinable1) {
+    if (typeof a === 'string' || typeof b === 'string') {
+        return a.toString() + b.toString();
     }
+    return a + b;
+}
 
-    greet(phrase: string): void {
-        console.log(phrase + ' ' + this.name)
+type UnknownEmployee = Employee | Admin;
+
+function printEmployeeInformation(emp: UnknownEmployee) {
+    console.log('Name: ' + emp.name);
+    if ('privileges' in emp) {
+        console.log('Privileges: ' + emp.privileges);
+    }
+    if('startDate' in emp) {
+        console.log('Start Date: ' + emp.startDate)
+    } 
+}
+
+printEmployeeInformation({name: 'Bobby', startDate: new Date()});
+
+class Car {
+    drive() {
+console.log('Driving..')
     }
 }
 
-let user1: Greatable;
+class Truck {
+    drive() {
+        console.log('Driving a truck..')
+            }
 
-user1 = new Person('Adriana');
-   
-user1.greet('Hi there - I am');
-console.log(user1)
+            loadCargo(amount: number) {
+                console.log('Loading Cargp...' + amount)
+            }
+}
+
+type Vehicle = Car | Truck;
+
+const v1 = new Car();
+const v2 = new Truck();
+
+function useVehicle(vehicle: Vehicle) {
+    vehicle.drive();
+    if(vehicle instanceof Truck) {
+        vehicle.loadCargo(1000)
+    }
+}
+
+useVehicle(v1);
+useVehicle(v2);
 
