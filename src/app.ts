@@ -38,6 +38,7 @@
 // const {firstName, age} = personNew;
 
 class Department {
+    static fiscalYear = 2022;
     // private id: string;
     // private name: string;
    protected employees: string[] = [];
@@ -46,6 +47,10 @@ class Department {
         //this.id: id
         // this.name = n;
     }
+
+   static createEmployee(name: string) {
+    return {name: name}
+   }
 //class method
     describe(this: Department){
         console.log(`Department (${this.id}): ${this.name}`)
@@ -109,6 +114,9 @@ class AccountingDepartment extends Department {
         console.log(this.reports)
     }
 }
+
+const employee1 = Department.createEmployee('Adriana');
+console.log(employee1, Department.fiscalYear);
 
 const it = new ITDepartment('d1', ['Adriana']);
 
