@@ -1,16 +1,16 @@
-let userInput: unknown;
-let userName: string;
+// let userInput: unknown;
+// let userName: string;
 
-userInput = 5;
-userInput = 'Adriana';
-if (typeof userInput === 'string'){
+// userInput = 5;
+// userInput = 'Adriana';
+// if (typeof userInput === 'string'){
 
-    userName = userInput;
-}
+//     userName = userInput;
+// }
 
-function generateError(message: string, code: number): never {
-    throw {message: message, errorCode: code};
-    //while(true){} infinite loop 
-}
+// function generateError(message: string, code: number): never {
+//     throw {message: message, errorCode: code};
+//     //while(true){} infinite loop 
+// }
 
-generateError('An error occured!', 500)
+// generateError('An error occured!', 500)
