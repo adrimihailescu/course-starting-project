@@ -25,11 +25,11 @@ interface Greatable extends Named{
 
 class Person implements Greatable {
     name: string;
-    age: number;
+    age= 36;
 
-    constructor(n: string, age: number) {
+    constructor(n: string) {
         this.name = n;
-        this.age = age;
+        // this.age = age;
     }
 
     greet(phrase: string): void {
@@ -39,7 +39,7 @@ class Person implements Greatable {
 
 let user1: Greatable;
 
-user1 = new Person('Adriana', 36);
+user1 = new Person('Adriana');
    
 user1.greet('Hi there - I am');
 console.log(user1)
