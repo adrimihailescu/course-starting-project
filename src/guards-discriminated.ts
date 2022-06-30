@@ -123,5 +123,11 @@ const errorBag: ErrorContainer = {
     username: 'Must start with a capital character!'
 };
 
-
+//optional chaining
+const fetchedUserData = {
+    id: 'u1',
+    name: 'Adriana',
+    job: {title: 'CEO', description: 'My own company'}
+};
+console.log(fetchedUserData?.job?.title)
 
