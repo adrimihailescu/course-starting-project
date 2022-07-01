@@ -149,6 +149,38 @@ interface Validatable {
     abstract renderContent(): void;
   }
 
+  //ProjectItem class
+  class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> {
+    private project: Project;
+
+    get persons() {
+      if (this.project.people === 1) {
+        return '1 person';
+      } else {
+        return `${this.project.people} persons`;
+      }
+    }
+
+    constructor(hostId: string, project: Project){
+      super('single-project', hostId, false, project.id);
+      this.project = project;
+
+      this.configure();
+      this.renderContent();
+    }
+
+    configure(){
+      
+    }
+
+    renderContent(){
+      this.element.querySelector('h2')!.textContent = this.project.title;
+      this.element.querySelector('h3')!.textContent = this.persons + ' assigned';
+      this.element.querySelector('p')!.textContent = this.project.description;
+
+    }
+  }
+
 
 
   //ProjectList Class
@@ -186,9 +218,7 @@ interface Validatable {
           const listEl = document.getElementById(`${this.type}-projects-list`)! as HTMLUListElement;
             listEl.innerHTML = ''; //get rid of all list items and then re-render so we don't have a duplicate project
             for (const prjItem of this.assignedProjects) {
-              const listItem = document.createElement('li');
-              listItem.textContent = prjItem.title;
-              listEl.appendChild(listItem);
+             new ProjectItem(this.element.querySelector('ul')!.id, prjItem);
             }
           }
         }
