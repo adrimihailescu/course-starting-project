@@ -1,3 +1,16 @@
+//Drag and Drop Interfaces
+interface Draggable {
+  dragStartHandler(event:DragEvent): void;
+  dragEndHandler(event: DragEvent): void;
+}
+
+interface DragTarget {
+  dragOverHandler(event: DragEvent): void;
+  dropHandler(event:DragEvent): void;
+  dragLeaveHandler(event: DragEvent): void;
+}
+
+
 //Project Type
 enum ProjectStatus {Active, Finished}
 
@@ -150,7 +163,7 @@ interface Validatable {
   }
 
   //ProjectItem class
-  class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> {
+  class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> implements Draggable{
     private project: Project;
 
     get persons() {
@@ -169,8 +182,19 @@ interface Validatable {
       this.renderContent();
     }
 
+    @autobind
+    dragStartHandler(event: DragEvent){
+      console.log(event);
+    }
+
+    dragEndHandler(_: DragEvent) {
+      console.log('DragEnd');
+    }
+
     configure(){
-      
+      this.element.addEventListener('dragstart', this.dragStartHandler);
+      this.element.addEventListener('dragend', this.dragEndHandler);
+
     }
 
     renderContent(){
@@ -184,7 +208,8 @@ interface Validatable {
 
 
   //ProjectList Class
-  class ProjectList extends Component<HTMLDivElement, HTMLElement>{
+  class ProjectList extends Component<HTMLDivElement, HTMLElement> 
+  implements DragTarget{
    
     assignedProjects: Project[];
 
@@ -195,8 +220,27 @@ interface Validatable {
       this.configure();
       this.renderContent();
   }
+@autobind
+  dragOverHandler(_: DragEvent){
+    const listEl = this.element.querySelector('ul')!;
+    listEl.classList.add('droppable');
+  }
+dropHandler(_: DragEvent) {
+  
+}
+@autobind
+dragLeaveHandler(_: DragEvent) {
+  const listEl = this.element.querySelector('ul')!;
+    listEl.classList.remove('droppable');
+}
+
+  
 
     configure() {
+      this.element.addEventListener('dragover', this.dragOverHandler);
+      this.element.addEventListener('dragleave', this.dragLeaveHandler);
+      this.element.addEventListener('drop', this.dropHandler);
+
       projectState.addListener((projects: Project[]) => {
        const relevantProjects = projects.filter(prj => {
           if(this.type === 'active') {
